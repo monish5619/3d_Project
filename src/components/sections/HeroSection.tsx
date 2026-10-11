@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowDown, Sparkles, Activity, ShieldCheck, ChevronRight } from 'lucide-react';
+import { ArrowDown, Sparkles, Activity, ShieldCheck, ChevronRight, Layers } from 'lucide-react';
 import { NexusCoreScene } from '../canvas/NexusCoreScene';
 import { soundFX } from '../../utils/audio';
 
@@ -14,6 +14,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   const [fps, setFps] = useState(60);
   const [latency, setLatency] = useState(12);
+  const [exploded, setExploded] = useState(false);
 
   // Subtle telemetry jitter for realistic live feeling
   useEffect(() => {
@@ -54,6 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           accentColor="#8B5CF6"
           isPlaying={true}
           shellEnabled={true}
+          explodedProgress={exploded ? 1.0 : 0.0}
         />
       </div>
 
@@ -174,6 +176,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               id="cta-explore"
             >
               <span>EXPLORE THE WORLD</span>
+            </button>
+
+            <button
+              onClick={() => {
+                soundFX.playClick(exploded ? 600 : 950);
+                setExploded(!exploded);
+              }}
+              onMouseEnter={() => soundFX.playHover()}
+              className="btn-secondary"
+              id="cta-exploded"
+              style={{
+                borderColor: exploded ? 'var(--accent-blue)' : undefined,
+                color: exploded ? 'var(--accent-blue)' : undefined,
+                background: exploded ? 'rgba(112, 225, 255, 0.1)' : undefined,
+              }}
+              title="Toggle deconstructed exploded view of the mechanical celestial planet"
+            >
+              <Layers size={16} />
+              <span>{exploded ? 'ASSEMBLE NOMINAL' : 'DECONSTRUCT CORE'}</span>
             </button>
           </div>
         </div>

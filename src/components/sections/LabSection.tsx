@@ -88,7 +88,7 @@ export const LabSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: '36px',
             alignItems: 'stretch',
           }}
@@ -97,7 +97,7 @@ export const LabSection: React.FC = () => {
           <div
             className="glass-panel"
             style={{
-              padding: '32px',
+              padding: 'clamp(20px, 4vw, 32px)',
               display: 'flex',
               flexDirection: 'column',
               gap: '28px',

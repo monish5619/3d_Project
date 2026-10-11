@@ -1,27 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
 import { WorldInMotionSection } from './components/sections/WorldInMotionSection';
 import { ExhibitsSection } from './components/sections/ExhibitsSection';
+import { ArtifactsSection } from './components/sections/ArtifactsSection';
 import { LabSection } from './components/sections/LabSection';
 import { RevealSection } from './components/sections/RevealSection';
 import { CtaSection } from './components/sections/CtaSection';
 import { Footer } from './components/sections/Footer';
-import { WebGLFallback } from './components/WebGLFallback';
 import { soundFX } from './utils/audio';
 
 export const App: React.FC = () => {
-  const [webglSupported] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return true;
-    try {
-      const canvas = document.createElement('canvas');
-      return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
-    } catch {
-      return false;
-    }
-  });
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -40,34 +30,29 @@ export const App: React.FC = () => {
 
       {/* Main Experience Layout */}
       <main id="main-content">
-        {!webglSupported ? (
-          <div className="container" style={{ paddingTop: '140px', paddingBottom: '100px' }}>
-            <WebGLFallback message="WebGL hardware acceleration was not detected in this session. A procedural CSS environment has been activated." />
-          </div>
-        ) : (
-          <>
-            {/* SECTION A — CINEMATIC HERO */}
-            <HeroSection
-              onEnterExperience={() => scrollToSection('motion')}
-              onExploreWorld={() => scrollToSection('exhibits')}
-            />
+        {/* SECTION A — CINEMATIC HERO */}
+        <HeroSection
+          onEnterExperience={() => scrollToSection('motion')}
+          onExploreWorld={() => scrollToSection('exhibits')}
+        />
 
-            {/* SECTION B — A WORLD IN MOTION */}
-            <WorldInMotionSection />
+        {/* SECTION B — A WORLD IN MOTION */}
+        <WorldInMotionSection />
 
-            {/* SECTION C — THREE DIMENSIONS */}
-            <ExhibitsSection />
+        {/* SECTION C — THREE DIMENSIONS */}
+        <ExhibitsSection />
 
-            {/* SECTION D — INTERACTIVE LAB */}
-            <LabSection />
+        {/* SECTION D — FLOATING 3D ARTIFACT GALLERY */}
+        <ArtifactsSection />
 
-            {/* SECTION E — THE REVEAL */}
-            <RevealSection />
+        {/* SECTION E — INTERACTIVE LAB */}
+        <LabSection />
+
+        {/* SECTION F — THE REVEAL */}
+        <RevealSection />
 
             {/* SECTION F — FINAL CALL TO ACTION */}
             <CtaSection onReturnToHero={() => scrollToSection('hero')} />
-          </>
-        )}
       </main>
 
       {/* SECTION G — FOOTER */}

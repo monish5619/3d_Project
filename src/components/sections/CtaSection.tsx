@@ -142,13 +142,16 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ onReturnToHero }) => {
           }}
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="diagnostics-title"
             className="glass-panel"
             style={{
               width: '100%',
               maxWidth: '560px',
               background: '#0D0F17',
               borderColor: 'rgba(139, 92, 246, 0.4)',
-              padding: '32px',
+              padding: 'clamp(20px, 4vw, 32px)',
               textAlign: 'left',
               position: 'relative',
               boxShadow: '0 24px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(139, 92, 246, 0.3)',
@@ -166,15 +169,17 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ onReturnToHero }) => {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Cpu size={18} color="var(--accent-blue)" />
-                <h3 style={{ fontSize: '1.1rem', letterSpacing: '0.05em' }}>SYSTEM DIAGNOSTICS</h3>
+                <h3 id="diagnostics-title" style={{ fontSize: '1.1rem', letterSpacing: '0.05em' }}>SYSTEM DIAGNOSTICS</h3>
               </div>
               <button
                 onClick={() => setSpecsOpen(false)}
+                aria-label="Close diagnostics modal"
                 style={{
                   background: 'transparent',
                   border: 'none',
                   color: 'var(--text-secondary)',
                   cursor: 'pointer',
+                  padding: '4px',
                 }}
               >
                 <X size={20} />

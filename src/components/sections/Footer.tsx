@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
             gap: '48px',
             marginBottom: '60px',
           }}
@@ -103,8 +103,9 @@ export const Footer: React.FC = () => {
                 { label: '01 // NEXUS CORE', href: '#hero' },
                 { label: '02 // WORLD IN MOTION', href: '#motion' },
                 { label: '03 // THREE DIMENSIONS', href: '#exhibits' },
-                { label: '04 // INTERACTIVE LAB', href: '#lab' },
-                { label: '05 // THE REVEAL', href: '#reveal' },
+                { label: '04 // ARTIFACT ARCHIVE', href: '#artifacts' },
+                { label: '05 // INTERACTIVE LAB', href: '#lab' },
+                { label: '06 // THE REVEAL', href: '#reveal' },
               ].map((link) => (
                 <li key={link.href}>
                   <a

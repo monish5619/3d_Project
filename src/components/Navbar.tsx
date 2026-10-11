@@ -29,8 +29,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onAudioToggle }) => {
     { label: '01. CORE', href: '#hero' },
     { label: '02. MOTION', href: '#motion' },
     { label: '03. EXHIBITS', href: '#exhibits' },
-    { label: '04. LAB', href: '#lab' },
-    { label: '05. REVEAL', href: '#reveal' },
+    { label: '04. ARTIFACTS', href: '#artifacts' },
+    { label: '05. LAB', href: '#lab' },
+    { label: '06. REVEAL', href: '#reveal' },
   ];
 
   const handleNavClick = (href: string) => {
