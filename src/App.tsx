@@ -1,122 +1,79 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { CustomCursor } from './components/CustomCursor';
+import { Navbar } from './components/Navbar';
+import { HeroSection } from './components/sections/HeroSection';
+import { WorldInMotionSection } from './components/sections/WorldInMotionSection';
+import { ExhibitsSection } from './components/sections/ExhibitsSection';
+import { LabSection } from './components/sections/LabSection';
+import { RevealSection } from './components/sections/RevealSection';
+import { CtaSection } from './components/sections/CtaSection';
+import { Footer } from './components/sections/Footer';
+import { WebGLFallback } from './components/WebGLFallback';
+import { soundFX } from './utils/audio';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App: React.FC = () => {
+  const [webglSupported] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  });
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      soundFX.playClick(900);
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div style={{ position: 'relative', width: '100%', minHeight: '100vh', backgroundColor: '#08090D' }}>
+      {/* Elegant Custom Cursor */}
+      <CustomCursor />
 
-      <div className="ticks"></div>
+      {/* Futuristic Navbar */}
+      <Navbar />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Main Experience Layout */}
+      <main id="main-content">
+        {!webglSupported ? (
+          <div className="container" style={{ paddingTop: '140px', paddingBottom: '100px' }}>
+            <WebGLFallback message="WebGL hardware acceleration was not detected in this session. A procedural CSS environment has been activated." />
+          </div>
+        ) : (
+          <>
+            {/* SECTION A — CINEMATIC HERO */}
+            <HeroSection
+              onEnterExperience={() => scrollToSection('motion')}
+              onExploreWorld={() => scrollToSection('exhibits')}
+            />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
-}
+            {/* SECTION B — A WORLD IN MOTION */}
+            <WorldInMotionSection />
 
-export default App
+            {/* SECTION C — THREE DIMENSIONS */}
+            <ExhibitsSection />
+
+            {/* SECTION D — INTERACTIVE LAB */}
+            <LabSection />
+
+            {/* SECTION E — THE REVEAL */}
+            <RevealSection />
+
+            {/* SECTION F — FINAL CALL TO ACTION */}
+            <CtaSection onReturnToHero={() => scrollToSection('hero')} />
+          </>
+        )}
+      </main>
+
+      {/* SECTION G — FOOTER */}
+      <Footer />
+    </div>
+  );
+};
+
+export default App;

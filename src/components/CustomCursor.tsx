@@ -3,7 +3,9 @@ import React, { useEffect, useState, useRef } from 'react';
 export const CustomCursor: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isTouchDevice] = useState(() => 
+    typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  );
 
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -13,11 +15,7 @@ export const CustomCursor: React.FC = () => {
   const reqRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Detect touch device
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      setIsTouchDevice(true);
-      return;
-    }
+    if (isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
@@ -65,7 +63,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseenter', handleMouseEnter);
       if (reqRef.current) cancelAnimationFrame(reqRef.current);
     };
-  }, [isVisible]);
+  }, [isVisible, isTouchDevice]);
 
   if (isTouchDevice || !isVisible) return null;
 
